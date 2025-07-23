@@ -1,0 +1,8 @@
+- name: Setup Python
+  uses: actions/setup-python@v5.4.0
+  with:
+    python-version: '3.10'  # Specify the Python version
+    cache: 'pip'  # Specify the package manager to use for caching
+    architecture: 'x64'  # Use x64 architecture
+    cache-dependency-path: 'requirements.txt'  # Cache dependencies from the specified file
+    update-environment: true  # Ensure environment variables are updated

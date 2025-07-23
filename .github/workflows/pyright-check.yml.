@@ -1,0 +1,28 @@
+name: Pyright Check
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  pyright:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Run Pyright
+        uses: mr-smithers-excellent/pyright-action@v1
+        with:
+          version: '1.1.245'
+          working-directory: './src'
+          annotate: 'all'
+          level: 'warning'
+          python-version: '3.8'
+          extra-args: '--disable-reporting'

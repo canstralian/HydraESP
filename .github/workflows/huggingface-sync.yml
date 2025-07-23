@@ -1,0 +1,24 @@
+name: Sync with Hugging Face
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to main branch (adjust if needed)
+  
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub repository
+        uses: actions/checkout@v2
+        
+      - name: Sync with Hugging Face
+        uses: nateraw/huggingface-sync-action@v0.0.5
+        with:
+          github_repo_id: 'canstralian/My-Python-Project-Template'  # Your GitHub repo
+          huggingface_repo_id: 'canstralian/my-huggingface-repo'  # Your Hugging Face repo
+          hf_token: ${{ secrets.HF_TOKEN }}  # Hugging Face token stored in GitHub secrets
+          repo_type: 'space'  # Syncing a Hugging Face Space
+          private: false  # Optional: Set to true if you want a private repo
+          space_sdk: 'gradio'  # If you're using Gradio for the Space
+          subdirectory: ''  # Optional: Specify a subdirectory if needed

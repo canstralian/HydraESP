@@ -1,0 +1,13 @@
+# .github/labeler.yml
+
+# Label for changes in the 'src' directory
+'src/*':
+  - 'src'
+
+# Label for changes in the 'docs' directory
+'docs/*':
+  - 'documentation'
+
+# Label for changes in the 'tests' directory
+'tests/*':
+  - 'tests'

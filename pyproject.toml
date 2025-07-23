@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "My-Python-Project-Template"
+version = "0.1.0"
+description = "A simple Python project"
+authors = ["Your Name <you@example.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.26"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2"
+
+[tool.black]
+line-length = 88
+target-version = ['py310']

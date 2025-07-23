@@ -1,0 +1,57 @@
+name: "Test Code Review"
+
+on:
+  pull_request:
+    paths-ignore:
+      - "*.md"
+      - "LICENSE"
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to Hugging Face Hub
+        uses: osbm/huggingface-login@v0.1
+        with:
+          username: ${{ secrets.HF_USERNAME }}
+          password: ${{ secrets.HF_PASSWORD }}
+          add_to_git_credentials: true
+
+      - name: Check if logged in
+        run: |
+          huggingface-cli whoami
+
+      - name: "Get diff of the pull request"
+        id: get_diff
+        shell: bash
+        env:
+          PULL_REQUEST_HEAD_REF: "${{ github.event.pull_request.head.ref }}"
+        run: |-
+          git fetch origin "${{ env.PULL_REQUEST_HEAD_REF }}:${{ env.PULL_REQUEST_HEAD_REF }}"
+          git checkout "${{ env.PULL_REQUEST_HEAD_REF }}"
+          git diff "origin/${{ env.PULL_REQUEST_HEAD_REF }}" > "diff.txt"
+          echo "diff=$(cat "diff.txt")" >> $GITHUB_ENV
+
+      - uses: luiyen/llm-code-review@v0.0.1
+        name: "Code Review"
+        id: review
+        with:
+          apiKey: ${{ secrets.API_KEY }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          githubRepository: ${{ github.repository }}
+          githubPullRequestNumber: ${{ github.event.pull_request.number }}
+          gitCommitHash: ${{ github.event.pull_request.head.sha }}
+          repoId: "meta-llama/Llama-2-7b-chat-hf"
+          temperature: "0.2"
+          maxNewTokens: "250"
+          topK: "50"
+          topP: "0.95"
+          pullRequestDiff: ${{ steps.get_diff.outputs.pull_request_diff }}
+          pullRequestChunkSize: "3500"
+          logLevel: "DEBUG"
