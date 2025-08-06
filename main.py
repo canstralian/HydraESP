@@ -20,6 +20,7 @@ def sample_function(name: str) -> str:
     """
     return f"Hello, {name}! Welcome to the template repository."
 
+
 def parse_args():
     """
     Parse command-line arguments.
@@ -28,8 +29,11 @@ def parse_args():
         argparse.Namespace: Parsed arguments.
     """
     parser = argparse.ArgumentParser(description="Template Python Application")
-    parser.add_argument('--name', type=str, default='World', help='Name to greet')
+    parser.add_argument(
+        '--name', type=str, default='World', help='Name to greet'
+    )
     return parser.parse_args()
+
 
 def main():
     """
@@ -43,6 +47,7 @@ def main():
     except Exception as e:
         logging.error(f"An error occurred: {e}")
         sys.exit(1)
+
 
 if __name__ == '__main__':
     main()
