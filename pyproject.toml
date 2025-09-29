@@ -10,7 +10,7 @@ python = "^3.9"
 requests = "^2.26"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.2"
+pytest = "^8.4"
 
 [tool.black]
 line-length = 88
